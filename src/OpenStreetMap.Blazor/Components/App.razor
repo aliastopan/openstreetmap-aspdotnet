@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="/" />
     <link rel="stylesheet" href="@Assets["lib/bootstrap/dist/css/bootstrap.min.css"]" />
+    <link rel="stylesheet" href="lib/leaflet/leaflet.css" />
     <link rel="stylesheet" href="@Assets["app.css"]" />
     <link rel="stylesheet" href="@Assets["OpenStreetMap.Blazor.styles.css"]" />
     <ImportMap />
@@ -16,6 +17,8 @@
 <body>
     <Routes />
     <script src="_framework/blazor.web.js"></script>
+    <script src="lib/leaflet/leaflet.js"></script>
+    <script src="js/leafletInterop.js"></script>
 </body>
 
 </html>
