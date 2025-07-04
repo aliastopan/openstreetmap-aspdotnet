@@ -1,0 +1,19 @@
+@page "/map"
+@inject IJSRuntime JS
+@rendermode InteractiveServer
+
+<h3>Map Page</h3>
+
+<div id="map" style="height:500px;"></div>
+
+@code
+{
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("leafletInterop.initMap", "map", 51.505, -0.09, 13);
+            await JS.InvokeVoidAsync("leafletInterop.addMarker", 51.505, -0.09, "You are here");
+        }
+    }
+}
