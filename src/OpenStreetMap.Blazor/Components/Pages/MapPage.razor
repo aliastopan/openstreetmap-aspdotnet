@@ -6,7 +6,14 @@
 <div style="display: flex; flex-direction: row;">
     <div id="map" style="height: 600px; width: 800px;"></div>
     <div style="padding: 1rem;">
-        <span>marker</span>
+        <span>marker:</span>
+        @foreach(var marker in _geoMarkers)
+        {
+            <div style="display: flex; flex-direction: column; margin-bottom: 1rem;">
+                <span>@marker.Title</span>
+                <span>@marker.Latitude, @marker.Longitude</span>
+            </div>
+        }
     </div>
 </div>
 
