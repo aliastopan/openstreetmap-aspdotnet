@@ -6,6 +6,15 @@ window.leafletInterop = {
       attribution: "© OpenStreetMap contributors"
     }).addTo(map);
 
+    // add click listener (marker)
+    map.on("click", function (e) {
+      const lat = e.latlng.lat;
+      const lng = e.latlng.lng;
+      L.marker([lat, lng])
+        .addTo(map)
+        .bindPopup(`Lat: ${lat.toFixed(5)}, Lng: ${lng.toFixed(5)}`);
+    });
+
     window._leafletMap = map;
   },
 
