@@ -14,6 +14,7 @@
         {
             await JS.InvokeVoidAsync("leafletInterop.initMap", "map", 51.505, -0.09, 13);
             await JS.InvokeVoidAsync("leafletInterop.locateAndCenter");
+            await JS.InvokeVoidAsync("leafletInterop.enableContextMenu");
         }
     }
 }
