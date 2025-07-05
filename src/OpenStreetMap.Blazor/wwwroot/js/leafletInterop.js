@@ -60,18 +60,9 @@ window.leafletInterop = {
       </div>
     `;
 
-    // style the menu
-    menu.style.position = 'absolute';
+    leafletInterop.applyMenuStyles(menu);
     menu.style.left = e.containerPoint.x + 'px';
     menu.style.top = e.containerPoint.y + 'px';
-    menu.style.zIndex = '1000';
-    menu.style.backgroundColor = 'white';
-    menu.style.border = '1px solid #ccc';
-    menu.style.borderRadius = '4px';
-    menu.style.boxShadow = '0 2px 8px rgba(0,0,0,0.2)';
-    menu.style.minWidth = '120px';
-    menu.style.fontFamily = 'Arial, sans-serif';
-    menu.style.fontSize = '14px';
 
     // add to map container
     window._leafletMap.getContainer().appendChild(menu);
@@ -102,6 +93,18 @@ window.leafletInterop = {
     if (menu) {
       menu.remove();
     }
-  }
+  },
+
+  applyMenuStyles: function (menu) {
+    menu.style.position = 'absolute';
+    menu.style.zIndex = '1000';
+    menu.style.backgroundColor = 'white';
+    menu.style.border = '1px solid #ccc';
+    menu.style.borderRadius = '4px';
+    menu.style.boxShadow = '0 2px 8px rgba(0,0,0,0.2)';
+    menu.style.minWidth = '120px';
+    menu.style.fontFamily = 'Arial, sans-serif';
+    menu.style.fontSize = '14px';
+  },
 
 };
