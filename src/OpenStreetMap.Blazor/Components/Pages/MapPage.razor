@@ -16,6 +16,9 @@
         @foreach(var marker in _geoMarkers)
         {
             <div style="display: flex; flex-direction: column; margin-bottom: 1rem;">
+                <span style="background-color: midnightblue; color: white;">
+                    @marker.MarkerId
+                </span>
                 <span>@marker.Title</span>
                 <span>@marker.Latitude, @marker.Longitude</span>
             </div>
@@ -47,20 +50,19 @@
     [JSInvokable]
     public async Task OnGeolocationFound(double lat, double lng)
     {
-        var geolocation = new GeoMarker
-        {
-            Latitude = lat,
-            Longitude = lng,
-            Title = "You are here!"
-        };
+        var title = "You are here.";
+        var geolocation = new GeoMarker(lat, lng, title);
 
         _geoMarkers.Add(geolocation);
 
-        await JS.InvokeVoidAsync("leafletInterop.addMarkerToMap", geolocation.Latitude, geolocation.Longitude, geolocation.Title);
+        await JS.InvokeVoidAsync("leafletInterop.addMarkerToMap",
+            geolocation.MarkerId,
+            geolocation.Latitude,
+            geolocation.Longitude,
+            geolocation.Title);
 
         StateHasChanged();
     }
-
 
     [JSInvokable]
     public async Task OnGeolocationError(string errorMessage)
@@ -81,15 +83,15 @@
 
     public async Task HandleGeoMarkerModalSubmit(string title)
     {
-        var newMarker = new GeoMarker
-        {
-            Latitude = _pendingLat,
-            Longitude = _pendingLng,
-            Title = title
-        };
+        var newMarker = new GeoMarker(_pendingLat, _pendingLng, title);
 
         _geoMarkers.Add(newMarker);
-        await JS.InvokeVoidAsync("leafletInterop.addMarkerToMap", newMarker.Latitude, newMarker.Longitude, newMarker.Title);
+        await JS.InvokeVoidAsync("leafletInterop.addMarkerToMap",
+            newMarker.MarkerId,
+            newMarker.Latitude,
+            newMarker.Longitude,
+            newMarker.Title);
+
         StateHasChanged();
     }
 

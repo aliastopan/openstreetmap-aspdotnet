@@ -1,4 +1,5 @@
 window.leafletInterop = {
+  _markers: {},
   initMap: function (mapId, lat, lng, zoom) {
     const map = L.map(mapId).setView([lat, lng], zoom);
 
@@ -27,12 +28,14 @@ window.leafletInterop = {
     );
   },
 
-  addMarkerToMap: function (lat, lng, title) {
+  addMarkerToMap: function (id, lat, lng, title) {
     if (!window._leafletMap) return;
 
-    L.marker([lat, lng])
+    const marker = L.marker([lat, lng])
       .addTo(window._leafletMap)
       .bindPopup(title);
+
+    this._markers[id] = marker;
   },
 
   enableContextMenu: function (dotNetRef) {
