@@ -1,0 +1,33 @@
+@if (IsVisible)
+{
+    <div>
+        <h3>@Title</h3>
+
+        <input @bind="InputText" placeholder="Enter text..." />
+
+        <div>
+            <button @onclick="OnSubmit">Submit</button>
+            <button @onclick="OnCancel">Cancel</button>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public bool IsVisible { get; set; }
+    [Parameter] public string Title { get; set; } = "Modal Title";
+    [Parameter] public EventCallback<string> OnSubmitted { get; set; }
+    [Parameter] public EventCallback OnClosed { get; set; }
+
+    private string InputText = "";
+
+    private async Task OnSubmit()
+    {
+        await OnSubmitted.InvokeAsync(InputText);
+        await OnClosed.InvokeAsync();
+    }
+
+    private async Task OnCancel()
+    {
+        await OnClosed.InvokeAsync();
+    }
+}
