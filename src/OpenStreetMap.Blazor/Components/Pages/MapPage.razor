@@ -12,7 +12,7 @@
             OnSubmitted="HandleGeoMarkerModalSubmit"
             OnClosed="() => _isModalVisible = false" />
 
-        <span>marker:</span>
+        <h5>Marker:</h5>
         @foreach(var marker in _geoMarkers)
         {
             <div style="display: flex; flex-direction: column; margin-bottom: 1rem;">
