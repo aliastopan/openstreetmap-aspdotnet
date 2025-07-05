@@ -1,4 +1,5 @@
 window.leafletInterop = {
+
   initMap: function (mapId, lat, lng, zoom) {
     const map = L.map(mapId).setView([lat, lng], zoom);
 

@@ -3,8 +3,12 @@
 @rendermode InteractiveServer
 
 <h1>OpenStreetMap</h1>
-
-<div id="map" style="height:500px;"></div>
+<div style="display: flex; flex-direction: row;">
+    <div id="map" style="height: 600px; width: 800px;"></div>
+    <div style="padding: 1rem;">
+        <span>marker</span>
+    </div>
+</div>
 
 @code
 {
@@ -17,7 +21,7 @@
         {
             _dotNetRef = DotNetObjectReference.Create(this);
 
-            await JS.InvokeVoidAsync("leafletInterop.initMap", "map", 51.505, -0.09, 13);
+            await JS.InvokeVoidAsync("leafletInterop.initMap", "map", -2.5, 118.0, 5);
             await JS.InvokeVoidAsync("leafletInterop.locateAndCenter", _dotNetRef);
         }
     }
