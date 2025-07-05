@@ -35,6 +35,26 @@ window.leafletInterop = {
       .addTo(window._leafletMap)
       .bindPopup(title);
 
+    // attach marker menu
+    marker.on('contextmenu', function(e) {
+      leafletInterop.hideContextMenu();
+
+      const menu = document.createElement('div');
+      menu.id = 'custom-marker-menu';
+      menu.innerHTML = `
+        <div class="context-menu-item" onclick="leafletInterop.onDeleteMarkerClick('${id}')">
+          Delete Marker
+        </div>
+      `;
+
+      leafletInterop.applyMenuStyles(menu);
+      const point = window._leafletMap.latLngToContainerPoint(e.latlng);
+      menu.style.left = point.x + 'px';
+      menu.style.top = point.y + 'px';;
+
+      window._leafletMap.getContainer().appendChild(menu);
+    });
+
     this._markers[id] = marker;
   },
 
@@ -48,10 +68,11 @@ window.leafletInterop = {
 
     // handle right-click on map
     window._leafletMap.on('contextmenu', function(e) {
-    // Remove existing menu if any
+
+    // remove existing menu if any
     leafletInterop.hideContextMenu();
 
-    // create menu
+    // attach context menu
     const menu = document.createElement('div');
     menu.id = 'custom-context-menu';
     menu.innerHTML = `
@@ -88,11 +109,18 @@ window.leafletInterop = {
     }
   },
 
-  hideContextMenu: function() {
-    const menu = document.getElementById('custom-context-menu');
-    if (menu) {
-      menu.remove();
-    }
+  onDeleteMarkerClick: function (id) {
+    leafletInterop.hideContextMenu();
+    console.log("deleting marker with ID:", id);
+    // future implementation: delete from map and storage
+  },
+
+  hideContextMenu: function () {
+    const contextMenu = document.getElementById('custom-context-menu');
+    if (contextMenu) contextMenu.remove();
+
+    const markerMenu = document.getElementById('custom-marker-menu');
+    if (markerMenu) markerMenu.remove();
   },
 
   applyMenuStyles: function (menu) {
@@ -108,3 +136,4 @@ window.leafletInterop = {
   },
 
 };
+
