@@ -8,15 +8,47 @@
 
 @code
 {
-    public List<GeoMarker> GeoMarkers = new();
+    private List<GeoMarker> _geoMarkers = new();
+    private DotNetObjectReference<MapPage>? _dotNetRef;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
+            _dotNetRef = DotNetObjectReference.Create(this);
+
             await JS.InvokeVoidAsync("leafletInterop.initMap", "map", 51.505, -0.09, 13);
-            await JS.InvokeVoidAsync("leafletInterop.locateAndCenter");
-            await JS.InvokeVoidAsync("leafletInterop.enableContextMenu");
+            await JS.InvokeVoidAsync("leafletInterop.locateAndCenter", _dotNetRef);
         }
+    }
+
+    [JSInvokable]
+    public async Task OnGeolocationFound(double lat, double lng)
+    {
+        var geolocation = new GeoMarker
+        {
+            Latitude = lat,
+            Longitude = lng,
+            Title = "You are here!"
+        };
+
+        _geoMarkers.Add(geolocation);
+
+        await JS.InvokeVoidAsync("leafletInterop.addMarkerToMap", geolocation.Latitude, geolocation.Longitude, geolocation.Title);
+
+        StateHasChanged();
+    }
+
+
+    [JSInvokable]
+    public async Task OnGeolocationError(string errorMessage)
+    {
+        Console.WriteLine($"Location error: {errorMessage}");
+        await Task.CompletedTask;
+    }
+
+    public void Dispose()
+    {
+        _dotNetRef?.Dispose();
     }
 }
